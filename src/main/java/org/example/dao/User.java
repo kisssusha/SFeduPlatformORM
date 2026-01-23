@@ -1,8 +1,8 @@
-package org.example.entity;
+package org.example.dao;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import org.example.entity.enums.UserRole;
+import org.example.dao.enums.UserRole;
 
 import java.util.List;
 

@@ -1,27 +1,29 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.Assignment;
+import org.example.dao.Lesson;
+import org.example.dao.Submission;
+import org.example.dao.User;
+import org.example.dao.enums.UserRole;
+import org.example.repository.AssignmentRepository;
+import org.example.repository.LessonRepository;
+import org.example.repository.SubmissionRepository;
+import org.example.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.example.eduplatform.entity.Assignment;
-import ru.example.eduplatform.entity.Lesson;
-import ru.example.eduplatform.entity.Submission;
-import ru.example.eduplatform.entity.User;
-import ru.example.eduplatform.entity.enums.UserRole;
-import ru.example.eduplatform.repository.AssignmentRepository;
-import ru.example.eduplatform.repository.LessonRepository;
-import ru.example.eduplatform.repository.SubmissionRepository;
-import ru.example.eduplatform.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AssignmentServiceImplTest {
@@ -51,8 +53,8 @@ class AssignmentServiceImplTest {
         lesson = new Lesson();
         lesson.setId(1L);
 
-        assignment = new Assignment(lesson, "Test Assignment", "Description", 
-                                   LocalDate.now().plusDays(7), 100);
+        assignment = new Assignment(lesson, "Test Assignment", "Description",
+                LocalDate.now().plusDays(7), 100);
         assignment.setId(1L);
 
         student = new User("Student", "student@test.com", UserRole.STUDENT);
@@ -68,7 +70,7 @@ class AssignmentServiceImplTest {
         when(assignmentRepository.save(any(Assignment.class))).thenReturn(assignment);
 
         Assignment created = assignmentServiceImpl.createAssignment(1L, "Test", "Desc",
-                                                              LocalDate.now(), 100);
+                LocalDate.now(), 100);
 
         assertThat(created).isNotNull();
         verify(assignmentRepository).save(any(Assignment.class));
@@ -92,8 +94,8 @@ class AssignmentServiceImplTest {
         when(submissionRepository.existsByAssignmentIdAndStudentId(1L, 1L)).thenReturn(true);
 
         assertThatThrownBy(() -> assignmentServiceImpl.submitAssignment(1L, 1L, "Solution"))
-            .isInstanceOf(RuntimeException.class)
-            .hasMessage("Студент уже отправил это задание");
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("The student has already submitted this assignment");
     }
 
     @Test

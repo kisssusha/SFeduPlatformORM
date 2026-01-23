@@ -1,11 +1,11 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.*;
+import org.example.dao.Module;
+import org.example.dao.enums.QuestionType;
+import org.example.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.example.eduplatform.entity.*;
-import ru.example.eduplatform.entity.Module;
-import ru.example.eduplatform.repository.*;
-import ru.example.eduplatform.entity.enums.QuestionType;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class QuizServiceImpl implements QuizService {
     @Transactional
     public Quiz createQuiz(final Long courseModuleId, final String title, final Integer timeLimit) {
         Module module = moduleRepository.findById(courseModuleId)
-                .orElseThrow(() -> new RuntimeException("Модуль не найден"));
+                .orElseThrow(() -> new RuntimeException("The module was not found"));
 
         Quiz quiz = new Quiz(module, title);
         quiz.setTimeLimit(timeLimit);
@@ -47,7 +47,7 @@ public class QuizServiceImpl implements QuizService {
     @Transactional
     public Question addQuestionToQuiz(final Long quizId, final String text, final QuestionType type) {
         Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new RuntimeException("Тест не найден"));
+                .orElseThrow(() -> new RuntimeException("The test was not found"));
 
         Question question = new Question(quiz, text, type);
         return questionRepository.save(question);
@@ -56,7 +56,7 @@ public class QuizServiceImpl implements QuizService {
     @Transactional
     public AnswerOption addAnswerOption(final Long questionId, final String text, final boolean isCorrect) {
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new RuntimeException("Вопрос не найден"));
+                .orElseThrow(() -> new RuntimeException("Issue not found"));
 
         AnswerOption option = new AnswerOption(question, text, isCorrect);
         return answerOptionRepository.save(option);
@@ -65,20 +65,20 @@ public class QuizServiceImpl implements QuizService {
     @Transactional
     public QuizSubmission takeQuiz(final Long quizId, final Long studentId, final Map<Long, Long> answers) {
         if (quizSubmissionRepository.existsByQuizIdAndStudentId(quizId, studentId)) {
-            throw new RuntimeException("Студент уже прошел этот тест");
+            throw new RuntimeException("The student has already passed this test");
         }
 
         Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new RuntimeException("Тест не найден"));
+                .orElseThrow(() -> new RuntimeException("The test was not found"));
         User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Студент не найден"));
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
         int correctAnswers = 0;
         for (Question question : quiz.getQuestions()) {
             Long selectedOptionId = answers.get(question.getId());
             if (selectedOptionId != null) {
                 AnswerOption selectedOption = answerOptionRepository.findById(selectedOptionId)
-                        .orElseThrow(() -> new RuntimeException("Вариант ответа не найден"));
+                        .orElseThrow(() -> new RuntimeException("The answer option was not found."));
                 if (selectedOption.isCorrect()) {
                     correctAnswers++;
                 }
@@ -101,7 +101,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     public Quiz getQuizByModuleId(final Long courseModuleId) {
-        return quizRepository.findByCourseModuleId(courseModuleId)
-                .orElseThrow(() -> new RuntimeException("Тест не найден для этого модуля"));
+        return quizRepository.findByModuleId(courseModuleId)
+                .orElseThrow(() -> new RuntimeException("No test was found for this module."));
     }
 }

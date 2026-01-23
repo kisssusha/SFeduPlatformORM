@@ -1,11 +1,11 @@
-package ru.example.eduplatform.controller;
+package org.example.controller;
 
+import org.example.dto.EnrollmentDto;
+import org.example.dao.Course;
+import org.example.dao.Enrollment;
+import org.example.service.EnrollmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.example.eduplatform.entity.Enrollment;
-import ru.example.eduplatform.service.EnrollmentService;
-import ru.example.eduplatform.controller.dto.EnrollmentDto;
-import ru.example.eduplatform.entity.Course;
 
 import java.util.List;
 

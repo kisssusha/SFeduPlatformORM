@@ -1,10 +1,10 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
-import ru.example.eduplatform.entity.AnswerOption;
-import ru.example.eduplatform.entity.Question;
-import ru.example.eduplatform.entity.Quiz;
-import ru.example.eduplatform.entity.QuizSubmission;
-import ru.example.eduplatform.entity.enums.QuestionType;
+import org.example.dao.AnswerOption;
+import org.example.dao.Question;
+import org.example.dao.Quiz;
+import org.example.dao.QuizSubmission;
+import org.example.dao.enums.QuestionType;
 
 import java.util.List;
 import java.util.Map;

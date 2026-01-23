@@ -1,11 +1,11 @@
-package ru.example.eduplatform.controller;
+package org.example.controller;
 
+import org.example.dto.AssignmentDto;
+import org.example.dao.Assignment;
+import org.example.dao.Submission;
+import org.example.service.AssignmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.example.eduplatform.controller.dto.AssignmentDto;
-import ru.example.eduplatform.entity.Assignment;
-import ru.example.eduplatform.entity.Submission;
-import ru.example.eduplatform.service.AssignmentService;
 
 import java.util.List;
 

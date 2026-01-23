@@ -1,8 +1,8 @@
-package org.example.entity;
+package org.example.dao;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.example.entity.enums.QuestionType;
+import org.example.dao.enums.QuestionType;
 
 import java.util.ArrayList;
 import java.util.List;

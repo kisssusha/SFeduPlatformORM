@@ -1,4 +1,4 @@
-package org.example.controller.dto;
+package org.example.dto;
 
 public record CourseDto(String title, String description, Long categoryId, Long teacherId) {
 }

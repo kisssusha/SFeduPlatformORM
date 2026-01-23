@@ -1,7 +1,7 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
-import ru.example.eduplatform.entity.Assignment;
-import ru.example.eduplatform.entity.Submission;
+import org.example.dao.Assignment;
+import org.example.dao.Submission;
 
 import java.time.LocalDate;
 import java.util.List;

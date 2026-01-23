@@ -1,4 +1,4 @@
-package org.example.controller.dto;
+package org.example.dto;
 
 public record QuizDto(Long courseModuleId, String title, Integer timeLimit) {
 }

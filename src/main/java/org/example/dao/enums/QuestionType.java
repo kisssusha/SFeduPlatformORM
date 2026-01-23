@@ -1,4 +1,4 @@
-package org.example.entity.enums;
+package org.example.dao.enums;
 
 public enum QuestionType {
     SINGLE_CHOICE,

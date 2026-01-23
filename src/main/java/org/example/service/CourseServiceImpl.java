@@ -1,10 +1,10 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.*;
+import org.example.dao.Module;
+import org.example.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.example.eduplatform.entity.*;
-import ru.example.eduplatform.entity.Module;
-import ru.example.eduplatform.repository.*;
 
 import java.util.List;
 
@@ -36,9 +36,9 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public Course createCourse(final String title, final String description, final Long categoryId, final Long teacherId) {
         final Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Категория не найдена"));
+                .orElseThrow(() -> new RuntimeException("Category not found"));
         final User teacher = userRepository.findById(teacherId)
-                .orElseThrow(() -> new RuntimeException("Преподаватель не найден"));
+                .orElseThrow(() -> new RuntimeException("The teacher was not found"));
 
         final Course course = new Course(title, description, category, teacher);
         return courseRepository.save(course);
@@ -46,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
 
     public Course getCourseById(final Long courseId) {
         return courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Курс не найден"));
+                .orElseThrow(() -> new RuntimeException("Course not found"));
     }
 
     public Course getCourseWithModules(final Long courseId) {
@@ -91,7 +91,7 @@ public class CourseServiceImpl implements CourseService {
     public void addTagToCourse(final Long courseId, final Long tagId) {
         final Course course = getCourseById(courseId);
         final Tag tag = tagRepository.findById(tagId)
-                .orElseThrow(() -> new RuntimeException("Тег не найден"));
+                .orElseThrow(() -> new RuntimeException("Tag not found"));
         course.getTags().add(tag);
         courseRepository.save(course);
     }

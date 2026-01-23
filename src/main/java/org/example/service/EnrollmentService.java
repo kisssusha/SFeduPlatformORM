@@ -1,7 +1,7 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
-import ru.example.eduplatform.entity.Enrollment;
-import ru.example.eduplatform.entity.Course;
+import org.example.dao.Course;
+import org.example.dao.Enrollment;
 
 import java.util.List;
 

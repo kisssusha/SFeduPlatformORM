@@ -1,24 +1,25 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.Course;
+import org.example.dao.Enrollment;
+import org.example.dao.User;
+import org.example.dao.enums.EnrollmentStatus;
+import org.example.dao.enums.UserRole;
+import org.example.repository.CourseRepository;
+import org.example.repository.EnrollmentRepository;
+import org.example.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.example.eduplatform.entity.Course;
-import ru.example.eduplatform.entity.Enrollment;
-import ru.example.eduplatform.entity.User;
-import ru.example.eduplatform.entity.enums.EnrollmentStatus;
-import ru.example.eduplatform.entity.enums.UserRole;
-import ru.example.eduplatform.repository.CourseRepository;
-import ru.example.eduplatform.repository.EnrollmentRepository;
-import ru.example.eduplatform.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -75,7 +76,7 @@ class EnrollmentServiceImplTest {
 
         assertThatThrownBy(() -> enrollmentServiceImpl.enrollStudent(1L, 1L))
             .isInstanceOf(RuntimeException.class)
-            .hasMessage("Студент уже записан на этот курс");
+            .hasMessage("The student is already enrolled in this course");
 
         verify(enrollmentRepository, never()).save(any());
     }

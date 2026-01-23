@@ -1,8 +1,8 @@
-package ru.example.eduplatform.repository;
+package org.example.repository;
 
+import org.example.dao.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.example.eduplatform.entity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {

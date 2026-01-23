@@ -1,14 +1,14 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.Course;
+import org.example.dao.Enrollment;
+import org.example.dao.User;
+import org.example.dao.enums.EnrollmentStatus;
+import org.example.repository.CourseRepository;
+import org.example.repository.EnrollmentRepository;
+import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.example.eduplatform.entity.Enrollment;
-import ru.example.eduplatform.entity.User;
-import ru.example.eduplatform.entity.enums.EnrollmentStatus;
-import ru.example.eduplatform.entity.Course;
-import ru.example.eduplatform.repository.CourseRepository;
-import ru.example.eduplatform.repository.EnrollmentRepository;
-import ru.example.eduplatform.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,13 +29,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Transactional
     public Enrollment enrollStudent(final Long courseId, final Long studentId) {
         if (enrollmentRepository.existsByStudentIdAndCourseId(studentId, courseId)) {
-            throw new RuntimeException("Студент уже записан на этот курс");
+            throw new RuntimeException("The student is already enrolled in this course");
         }
 
         final User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Студент не найден"));
+                .orElseThrow(() -> new RuntimeException("Student not found"));
         final Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Курс не найден"));
+                .orElseThrow(() -> new RuntimeException("Course not found"));
 
         final Enrollment enrollment = new Enrollment(student, course, LocalDate.now(), EnrollmentStatus.ACTIVE);
         return enrollmentRepository.save(enrollment);
@@ -43,7 +43,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     public void unenrollStudent(final Long courseId, final Long studentId) {
         final Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId)
-                .orElseThrow(() -> new RuntimeException("Запись не найдена"));
+                .orElseThrow(() -> new RuntimeException("The record was not found"));
         enrollmentRepository.delete(enrollment);
     }
 

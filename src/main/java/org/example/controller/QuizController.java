@@ -1,15 +1,15 @@
-package ru.example.eduplatform.controller;
+package org.example.controller;
 
+import org.example.dto.QuizDto;
+import org.example.dao.AnswerOption;
+import org.example.dao.Question;
+import org.example.dao.Quiz;
+import org.example.dao.QuizSubmission;
+import org.example.dao.enums.QuestionType;
+import org.example.service.QuizService;
+import org.example.service.QuizServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.example.eduplatform.entity.QuizSubmission;
-import ru.example.eduplatform.service.QuizService;
-import ru.example.eduplatform.service.QuizServiceImpl;
-import ru.example.eduplatform.controller.dto.QuizDto;
-import ru.example.eduplatform.entity.AnswerOption;
-import ru.example.eduplatform.entity.Question;
-import ru.example.eduplatform.entity.Quiz;
-import ru.example.eduplatform.entity.enums.QuestionType;
 
 import java.util.List;
 import java.util.Map;

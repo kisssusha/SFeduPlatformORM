@@ -1,15 +1,15 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.Assignment;
+import org.example.dao.Lesson;
+import org.example.dao.Submission;
+import org.example.dao.User;
+import org.example.repository.AssignmentRepository;
+import org.example.repository.LessonRepository;
+import org.example.repository.SubmissionRepository;
+import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.example.eduplatform.entity.Submission;
-import ru.example.eduplatform.entity.User;
-import ru.example.eduplatform.entity.Assignment;
-import ru.example.eduplatform.entity.Lesson;
-import ru.example.eduplatform.repository.AssignmentRepository;
-import ru.example.eduplatform.repository.LessonRepository;
-import ru.example.eduplatform.repository.SubmissionRepository;
-import ru.example.eduplatform.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,7 +39,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     public Assignment createAssignment(final Long lessonId, final String title, final String description,
                                        final LocalDate dueDate, final Integer maxScore) {
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new RuntimeException("Урок не найден"));
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
         Assignment assignment = new Assignment(lesson, title, description, dueDate, maxScore);
         return assignmentRepository.save(assignment);
@@ -47,7 +47,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     public Assignment getAssignmentById(final Long assignmentId) {
         return assignmentRepository.findById(assignmentId)
-                .orElseThrow(() -> new RuntimeException("Задание не найдено"));
+                .orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
     public List<Assignment> getAssignmentsByLesson(final Long lessonId) {
@@ -61,12 +61,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Transactional
     public Submission submitAssignment(final Long assignmentId, final Long studentId, final String content) {
         if (submissionRepository.existsByAssignmentIdAndStudentId(assignmentId, studentId)) {
-            throw new RuntimeException("Студент уже отправил это задание");
+            throw new RuntimeException("The student has already submitted this assignment");
         }
 
         Assignment assignment = getAssignmentById(assignmentId);
         User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Студент не найден"));
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
         Submission submission = new Submission(assignment, student, content);
         return submissionRepository.save(submission);
@@ -75,7 +75,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Transactional
     public void gradeSubmission(final Long submissionId, final Integer score, final String feedback) {
         Submission submission = submissionRepository.findById(submissionId)
-                .orElseThrow(() -> new RuntimeException("Решение не найдено"));
+                .orElseThrow(() -> new RuntimeException("No solution found"));
         submission.setScore(score);
         submission.setFeedback(feedback);
         submissionRepository.save(submission);

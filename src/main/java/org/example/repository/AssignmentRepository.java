@@ -1,10 +1,10 @@
-package ru.example.eduplatform.repository;
+package org.example.repository;
 
+import org.example.dao.Assignment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.example.eduplatform.entity.Assignment;
 
 import java.util.List;
 
@@ -12,6 +12,11 @@ import java.util.List;
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     List<Assignment> findByLessonId(Long lessonId);
 
-    @Query("SELECT a FROM Assignment a JOIN a.lesson l WHERE l.courseModule.course.id = :courseId")
+    @Query("""
+                SELECT a
+                FROM Assignment a
+                JOIN a.lesson l
+                WHERE l.courseModule.course.id = :courseId
+            """)
     List<Assignment> findByCourseId(@Param("courseId") Long courseId);
 }

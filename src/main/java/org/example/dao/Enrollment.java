@@ -1,8 +1,8 @@
-package org.example.entity;
+package org.example.dao;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.example.entity.enums.EnrollmentStatus;
+import org.example.dao.enums.EnrollmentStatus;
 
 import java.time.LocalDate;
 

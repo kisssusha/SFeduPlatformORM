@@ -1,25 +1,26 @@
-package ru.example.eduplatform.service;
+package org.example.service;
 
+import org.example.dao.Category;
+import org.example.dao.Course;
+import org.example.dao.User;
+import org.example.dao.enums.UserRole;
+import org.example.repository.CategoryRepository;
+import org.example.repository.CourseRepository;
+import org.example.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.example.eduplatform.entity.Category;
-import ru.example.eduplatform.entity.Course;
-import ru.example.eduplatform.entity.User;
-import ru.example.eduplatform.entity.enums.UserRole;
-import ru.example.eduplatform.repository.CategoryRepository;
-import ru.example.eduplatform.repository.CourseRepository;
-import ru.example.eduplatform.repository.ModuleRepository;
-import ru.example.eduplatform.repository.UserRepository;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CourseServiceImplTest {
@@ -32,9 +33,6 @@ class CourseServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private ModuleRepository moduleRepository;
 
     @InjectMocks
     private CourseServiceImpl courseServiceImpl;
@@ -74,7 +72,7 @@ class CourseServiceImplTest {
 
         assertThatThrownBy(() -> courseServiceImpl.createCourse("Java", "Learn", 999L, 1L))
             .isInstanceOf(RuntimeException.class)
-            .hasMessage("Категория не найдена");
+            .hasMessage("Category not found");
     }
 
     @Test
@@ -84,7 +82,7 @@ class CourseServiceImplTest {
 
         assertThatThrownBy(() -> courseServiceImpl.createCourse("Java", "Learn", 1L, 999L))
             .isInstanceOf(RuntimeException.class)
-            .hasMessage("Преподаватель не найден");
+            .hasMessage("The teacher was not found");
     }
 
     @Test
@@ -104,7 +102,7 @@ class CourseServiceImplTest {
 
         assertThatThrownBy(() -> courseServiceImpl.getCourseById(999L))
             .isInstanceOf(RuntimeException.class)
-            .hasMessage("Курс не найден");
+            .hasMessage("Course not found");
     }
 
     @Test
